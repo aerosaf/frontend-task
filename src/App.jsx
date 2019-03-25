@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
 import NoteList from './components/sidebar/NoteList';
+import NotePad from './components/editor/NotePad';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.selectNote = this.selectNote.bind(this);
+    this.editText = this.editText.bind(this);
   }
 
   state = {
@@ -78,6 +81,21 @@ class App extends Component {
     }
   }
 
+  // Update body content from TextArea
+  editText(event, id) {
+    this.setState({
+      notes: this.state.notes.map((note) => {
+        const tempNote = note;
+        if (note.id === id) {
+          tempNote.body = event.target.value;
+          this.state.textArea.body = event.target.value;
+        }
+        return tempNote;
+      }),
+    });
+    setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
+  }
+
   // Select sidebar titles to show in textarea
   selectNote(id) {
     let tempTextArea;
@@ -107,8 +125,12 @@ class App extends Component {
               <NoteList
                 className="ui grid"
                 notes={this.state.notes}
+                selectNote={this.selectNote}
               />
             </div>
+          </div>
+          <div className="eight wide column">
+            <NotePad textArea={this.state.textArea} editText={this.editText} />
           </div>
         </div>
       </Container >

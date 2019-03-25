@@ -8,6 +8,7 @@ class NoteList extends Component {
       <Note
         key={note.id}
         note={note}
+        selectNote={this.props.selectNote}
       />
     ))
     );
@@ -16,6 +17,7 @@ class NoteList extends Component {
 
 NoteList.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectNote: PropTypes.func.isRequired,
 };
 
 export default NoteList;
