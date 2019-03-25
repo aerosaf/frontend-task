@@ -9,6 +9,7 @@ class App extends Component {
     super(props);
     this.selectNote = this.selectNote.bind(this);
     this.editText = this.editText.bind(this);
+    this.addNew = this.addNew.bind(this);
   }
 
   state = {
@@ -113,6 +114,26 @@ class App extends Component {
     setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
   }
 
+  addNew() {
+    const tempNotes = this.state.notes;
+    const tempTextArea = this.state.textArea;
+    // eslint-disable-next-line no-bitwise
+    let objectId = (new Date().getTime() / 1000 | 0).toString(16);
+    // eslint-disable-next-line no-bitwise
+    objectId += 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase();
+    tempNotes.push({
+      id: objectId,
+      body: 'New note',
+    });
+    tempTextArea.id = objectId;
+    tempTextArea.body = 'New note';
+    this.setState({
+      notes: tempNotes,
+      textArea: tempTextArea,
+    });
+    setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
+  }
+
   render() {
     return (
       <Container>
@@ -128,6 +149,13 @@ class App extends Component {
                 selectNote={this.selectNote}
               />
             </div>
+            <button
+              onClick={this.addNew}
+              className="ui primary basic button"
+              onKeyPress={() => this.addNew}
+            >
+              Add Note
+            </button>
           </div>
           <div className="eight wide column">
             <NotePad textArea={this.state.textArea} editText={this.editText} />
