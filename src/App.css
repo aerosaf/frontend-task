@@ -6,3 +6,8 @@ h1 {
     text-align: center;
     font-weight: normal;
 }
+i.window.close.icon {
+    position: absolute;
+    left: 12.5em;
+    bottom: 1em;
+}

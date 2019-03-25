@@ -18,6 +18,13 @@ function Note(props) {
           }...
         </h4>
       </div>
+      <i
+        className="window close icon"
+        onKeyPress={() => props.deleteNote(props.note.id)}
+        tabIndex={props.note.id}
+        onClick={() => props.deleteNote(props.note.id)}
+        role="button"
+      />
     </div>
   );
 }
@@ -27,6 +34,7 @@ Note.propTypes = {
     PropTypes.object,
   ]).isRequired,
   selectNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
 };
 
 export default Note;

@@ -9,6 +9,7 @@ class NoteList extends Component {
         key={note.id}
         note={note}
         selectNote={this.props.selectNote}
+        deleteNote={this.props.deleteNote}
       />
     ))
     );
@@ -18,6 +19,7 @@ class NoteList extends Component {
 NoteList.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
 };
 
 export default NoteList;

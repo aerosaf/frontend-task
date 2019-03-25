@@ -10,6 +10,7 @@ class App extends Component {
     this.selectNote = this.selectNote.bind(this);
     this.editText = this.editText.bind(this);
     this.addNew = this.addNew.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
   state = {
@@ -134,6 +135,16 @@ class App extends Component {
     setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
   }
 
+  deleteNote(id) {
+    let tempNotes = this.state.notes;
+    tempNotes = tempNotes.filter(note => note.id !== id);
+    this.setState({
+      notes: tempNotes,
+      textArea: {},
+    });
+    setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
+  }
+
   render() {
     return (
       <Container>
@@ -147,6 +158,7 @@ class App extends Component {
                 className="ui grid"
                 notes={this.state.notes}
                 selectNote={this.selectNote}
+                deleteNote={this.deleteNote}
               />
             </div>
             <button
