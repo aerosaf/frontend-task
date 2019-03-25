@@ -11,6 +11,7 @@ class App extends Component {
     this.editText = this.editText.bind(this);
     this.addNew = this.addNew.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
+    this.find = this.find.bind(this);
   }
 
   state = {
@@ -145,6 +146,24 @@ class App extends Component {
     setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
   }
 
+  find(event) {
+    this.setState({
+      search: {
+        target: event.target.value,
+        found: this.filter(),
+      },
+    });
+    setTimeout(() => localStorage.setItem('state', JSON.stringify(this.state)), 1000);
+  }
+
+  filter() {
+    let notesFound = [];
+    notesFound = this.state.notes
+      .filter(note => (note.body.toLowerCase().includes(this.state.search.target.toLowerCase()) ||
+        note.body.toLowerCase().indexOf(this.state.search.target.toLowerCase()) !== -1));
+    return notesFound;
+  }
+
   render() {
     return (
       <Container>
@@ -153,10 +172,16 @@ class App extends Component {
             <h1>Note App</h1>
           </div>
           <div className="four wide column">
+            <div className="ui search">
+              <div className="ui icon input">
+                <input className="prompt" type="search" value={this.state.search.target} onChange={this.find} />
+                <i className="search icon" />
+              </div>
+            </div>
             <div className="ui vertical menu">
               <NoteList
                 className="ui grid"
-                notes={this.state.notes}
+                notes={this.state.search.target ? this.state.search.found : this.state.notes}
                 selectNote={this.selectNote}
                 deleteNote={this.deleteNote}
               />
